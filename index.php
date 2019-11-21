@@ -1,6 +1,6 @@
 <?php
 
-define('ROOTPATH', dirname(__DIR__));
+define('ROOTPATH', __DIR__);
 
 require_once ROOTPATH . '/App/App.php';
 

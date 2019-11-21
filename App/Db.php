@@ -13,7 +13,7 @@ class Db
 
     private function getPDOSettings()
     {
-        $config = include ROOTPATH . DIRECTORY_SEPARATOR . 'Config' . DIRECTORY_SEPARATOR . 'Db.php';
+        $config = include ROOTPATH . '/config/Db.php';
         $result['dsn'] = "{$config['type']}:host={$config['host']};dbname={$config['dbname']};charset={$config['charset']}";
         $result['user'] = $config['user'];
         $result['pass'] = $config['pass'];
