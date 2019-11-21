@@ -1,0 +1,22 @@
+{% if flashMessage %}
+    <div class="alert {{ flashMessageClass }}">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <div>
+            {# В flashMessage можно передать массив #}
+            {% if flashMessage is iterable and flashMessage|length > 1 %}
+                {# Если массив имеет более одного элемента - выводится список #}
+                <ul>
+                    {% for msg in flashMessage %}
+                        <li>{{ msg|raw }}</li>
+                    {% endfor %}
+                </ul>
+            {% elseif flashMessage is iterable and flashMessage|length == 1 %}
+                {# Если массив имеет однин элемент - выводится обычным текстом #}
+                {% for msg in flashMessage %}{{ msg|raw }}{% endfor %}
+            {% else %}
+                {# В остальных случаях ститается обычным текстом #}
+                {{ flashMessage|raw }}
+            {% endif %}
+        </div>
+    </div>
+{% endif %}

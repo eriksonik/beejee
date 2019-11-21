@@ -1,0 +1,67 @@
+{% extends "layout.htm" %}
+
+{% block title %}
+    {% if mode == 'create' %}Создание{% else %}Изменение{% endif %} задачи
+{% endblock %}
+
+{% block content %}
+    <h1>{% if mode == 'create' %}Создание{% else %}Изменение{% endif %} задачи</h1>
+
+    <div class="row justify-content-md-center mb-3">
+
+        <div class="col-lg-6 col-md-8">
+
+            <form class="form" method="post">
+
+                {% if messages %}
+                    <div class="alert alert-danger" role="alert">
+                        <ul>
+                            {% for msg in messages %}
+                            <li>{{ msg }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+                <input type="hidden" name="mode" value="{{ mode }}" />
+                <input type="hidden" name="task_id" value="{{ values.task_id }}" />
+
+                <div class="form-group required">
+                    <label class="control-label" for="username-item">Имя пользователя</label>
+                    <input type="text"  id="username-item"
+                           class="form-control{% if errors.login %} is-invalid{% endif %}"
+                           name="login" value="{{ values.login }}" required />
+                </div>
+
+                <div class="form-group required">
+                    <label class="control-label" for="email-item">E-mail</label>
+                    <input type="email" id="email-item"
+                           class="form-control{% if errors.email %} is-invalid{% endif %}"
+                           name="email" value="{{ values.email }}" required />
+                </div>
+
+                <div class="form-group required">
+                    <label class="control-label" for="task-text-item">Текст задачи</label>
+                    <textarea class="form-control{% if errors.text %} is-invalid{% endif %}"
+                              id="task-text-item" rows="3" name="text" required>{{ values.text }}</textarea>
+                </div>
+
+                {% if isAdmin %}
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="check-done-item"
+                           name="done" value="check"{% if values.done %} checked{% endif %}>
+                    <label class="control-label form-check-label" for="check-done-item">
+                        Выполнено
+                    </label>
+                </div>
+                {% endif %}
+
+                <button class="btn btn-primary mt-4 mb-2" type="submit">
+                    {% if mode == 'create' %}Создать{% else %}Изменить{% endif %}
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,13 @@
+h1 {
+    margin: 1.4em 0;
+}
+
+
+/**
+ * Form required.
+ */
+.form-group.required .control-label:after {
+    content: "*";
+    color: #dc3545;
+    margin-left: .1em;
+}

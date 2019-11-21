@@ -1,0 +1,95 @@
+{% extends "layout.htm" %}
+
+{% block title %}Список задач{% endblock %}
+
+{% block content %}
+
+    <h1>Список задач</h1>
+
+    {% include 'Templates/flash_message.htm' %}
+
+    <a href="/task/create" class="btn btn-light float-right mb-3">Создать задачу</a>
+
+    <table id="tasks-table" class="table table-striped">
+        <thead class="thead-light">
+        <tr>
+            {% if isAdmin %}
+                <th scope="col" class="sort-disabled">#</th>
+            {% endif %}
+            <th scope="col">Имя пользователя</th>
+            <th scope="col">е-mail</th>
+            <th scope="col" class="sort-disabled">Текст задачи</th>
+            <th scope="col">Статус</th>
+            {% if isAdmin %}
+                <th scope="col" class="sort-disabled">Управление</th>
+            {% endif %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for task in tasks %}
+        <tr{% if task.status %} class="table-success"{% endif %}>
+            {% if isAdmin %}
+                <th scope="row">{{ task.id }}</th>
+            {% endif %}
+            <td>{{ task.user_name }}</td>
+            <td>{{ task.email }}</td>
+            <td>{{ task.text }}</td>
+            <td>
+                {% if task.status %}<p>выполнено</p>{% endif %}
+                {% if task.changed %}<p>отредактировано администратором</p>{% endif %}
+            </td>
+            {% if isAdmin %}
+                <td><a href="/task/edit/{{ task.id }}">Изменить</a></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div id="tasks-pager">
+        <div class="form-inline">
+            <div class="btn-group btn-group-sm mx-1" role="group">
+                <button type="button" class="btn btn-secondary first" title="first">⇤</button>
+                <button type="button" class="btn btn-secondary prev" title="previous">←</button>
+            </div>
+            <span class="pagedisplay"></span>
+            <div class="btn-group btn-group-sm mx-1" role="group">
+                <button type="button" class="btn btn-secondary next" title="next">→</button>
+                <button type="button" class="btn btn-secondary last" title="last">⇥</button>
+            </div>
+            <select class="form-control-sm custom-select px-4 mx-1 pagenum" title="Select page number"></select>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block css %}
+    <link href="/css/tablesort/jquery.tablesorter.pager.min.css" rel="stylesheet">
+    <link href="/css/tablesort/theme.bootstrap_4.min.css" rel="stylesheet">
+    <style>
+        #tasks-table td > p { margin: 0 }
+    </style>
+{% endblock %}
+
+{% block js %}
+    <script src="/js/tablesort/jquery.tablesorter.min.js"></script>
+    <script src="/js/tablesort/jquery.tablesorter.pager.min.js"></script>
+    <script>
+        $(function() {
+            $("#tasks-table").tablesorter({
+                theme : "bootstrap",
+                headers: {
+                    '.sort-disabled': {
+                        sorter: false
+                    }
+                }
+            }).tablesorterPager({
+                container: $("#tasks-pager"),
+                size: 3,
+                cssGoto  : ".pagenum",
+                removeRows: false,
+                output: '{startRow} - {endRow} / {filteredRows} ({totalRows})'
+            });
+        });
+    </script>
+{% endblock %}

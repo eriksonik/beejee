@@ -1,0 +1,45 @@
+{% extends "layout.htm" %}
+
+{% block title %}Авторизация{% endblock %}
+
+{% block content %}
+    <h1>Авторизация</h1>
+
+    <div class="row justify-content-md-center mb-3">
+
+        <div class="col-lg-6 col-md-8">
+
+            <form class="form" method="post">
+
+                {% if values.message %}
+                    <div class="alert alert-danger" role="alert">{{ values.message }}</div>
+                {% endif %}
+
+                <div class="form-group required">
+                    <label for="username-item">Логин</label>
+                    <input name="login"
+                           type="text"
+                           class="form-control"
+                           id="username-item"
+                           value="{{ values.login }}"
+                           required
+                    />
+                </div>
+
+                <div class="form-group required">
+                    <label for="password-item">Пароль</label>
+                    <input name="password"
+                           type="password"
+                           class="form-control"
+                           id="password-item"
+                           value="{{ values.password }}"
+                           required
+                    />
+                </div>
+
+                <button class="btn btn-primary mb-2" type="submit">Вход</button>
+            </form>
+
+        </div>
+    </div>
+{% endblock %}
